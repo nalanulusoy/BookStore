@@ -4,5 +4,4 @@
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
         android:title="@string/home_title" />
-
 </menu>
