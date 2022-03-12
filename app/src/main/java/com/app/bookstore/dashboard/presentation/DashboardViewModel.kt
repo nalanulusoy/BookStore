@@ -1,4 +1,4 @@
-package com.app.bookstore.dashboard
+package com.app.bookstore.dashboard.presentation
 
 import com.app.bookstore.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

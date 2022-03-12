@@ -1,15 +1,11 @@
-package com.app.bookstore.dashboard
+package com.app.bookstore.dashboard.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.navigation.ActivityNavigator
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.app.bookstore.R
 import com.app.bookstore.base.BaseFragment
 import com.app.bookstore.databinding.DashboardFragmentBinding
-import com.app.bookstore.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
