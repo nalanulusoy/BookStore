@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: androidx.lifecycle:lifecycle-runtime-testing:2.3.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0bda0d3972d23cf205aed4be1a6da1fc/jetified-lifecycle-runtime-testing-2.3.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/01ba788e047c1ed721fa7d445ecd9b44/jetified-lifecycle-runtime-testing-2.3.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/66bfb7361494c7ab5cf2109e871f2b81/transformed/jetified-lifecycle-runtime-testing-2.3.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c58690f6cb855c8ad4498f681bb5b82e/transformed/jetified-lifecycle-runtime-testing-2.3.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c58690f6cb855c8ad4498f681bb5b82e/transformed/jetified-lifecycle-runtime-testing-2.3.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c58690f6cb855c8ad4498f681bb5b82e/transformed/jetified-lifecycle-runtime-testing-2.3.1/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-runtime-testing/2.3.1/95f9d77a6ffb70df17d728b6ed513302c8056275/lifecycle-runtime-testing-2.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
