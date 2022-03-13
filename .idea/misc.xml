@@ -6,7 +6,10 @@
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dashboard_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/detail_fragment.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/item_book_data.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_search.xml" value="0.175" />
       </map>
     </option>
   </component>
