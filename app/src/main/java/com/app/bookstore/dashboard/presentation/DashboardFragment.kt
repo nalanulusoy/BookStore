@@ -1,6 +1,8 @@
 package com.app.bookstore.dashboard.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.app.bookstore.R
@@ -15,17 +17,21 @@ class DashboardFragment : BaseFragment<DashboardViewModel, DashboardFragmentBind
 
     companion object {
         const val LAYOUT_RES_ID = R.layout.dashboard_fragment
-        fun newInstance() = DashboardFragment()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getBinding().detailButton.setOnClickListener {
+       /* getBinding().detailButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.dashboardActionScreen);
-        }
+        }*/
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
     }
 
     override fun provideLayoutResId() = LAYOUT_RES_ID
