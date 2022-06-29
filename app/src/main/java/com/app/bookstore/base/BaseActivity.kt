@@ -1,15 +1,14 @@
 package com.app.bookstore.base
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 
 /**
  * Created by nalanulusoy on 11,Mart,2022
  */
-abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : ComponentActivity() {
 
     private lateinit var binding: DB
     private lateinit var viewModel: VM
@@ -19,6 +18,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         binding = DataBindingUtil.setContentView(this, provideLayoutResId())
         viewModel = provideViewModel()
         bindViewModel(binding)
+
     }
 
     open fun getBinding() = binding
