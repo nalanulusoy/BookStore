@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookStore">
         <activity
-            android:name=".detail.DetailActivity"
+            android:name="com.app.bookstore.feature.detail.presentation.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.app.bookstore.feature.dashboard.presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
