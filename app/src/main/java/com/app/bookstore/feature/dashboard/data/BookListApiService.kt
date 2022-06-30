@@ -1,4 +1,4 @@
-package com.app.bookstore.dashboard.data
+package com.app.bookstore.feature.dashboard.data
 
 import com.app.bookstore.base.extention.COMMON_API_ROUTE_BOOK_LIST
 import retrofit2.Response

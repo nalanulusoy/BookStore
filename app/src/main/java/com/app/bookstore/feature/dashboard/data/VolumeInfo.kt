@@ -1,4 +1,4 @@
-package com.app.bookstore.dashboard.data
+package com.app.bookstore.feature.dashboard.data
 
 import com.google.gson.annotations.SerializedName
 
