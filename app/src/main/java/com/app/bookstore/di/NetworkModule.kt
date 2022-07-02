@@ -1,6 +1,7 @@
 package com.app.bookstore.di
 
 import com.app.bookstore.BuildConfig
+import com.app.bookstore.feature.dashboard.data.BookListApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+object NetworkModule {
     @Singleton
     @Provides
     fun provideHttpClient(): OkHttpClient {
@@ -44,5 +45,11 @@ class NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookListApiService(retrofit: Retrofit): BookListApiService {
+        return retrofit.create(BookListApiService::class.java)
     }
 }

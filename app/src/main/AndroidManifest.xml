@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.bookstore">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".BookStoreApplication"
         android:allowBackup="true"
@@ -10,9 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookStore">
-        <activity
-            android:name="com.app.bookstore.feature.detail.presentation.DetailActivity"
-            android:exported="false" />
         <activity
             android:name="com.app.bookstore.feature.dashboard.presentation.MainActivity"
             android:exported="true">
