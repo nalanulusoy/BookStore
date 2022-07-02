@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.compose.setContent
-import com.app.bookstore.feature.dashboard.DashboardViewModel
+import com.app.bookstore.feature.dashboard.presentation.DashboardViewModel
 import com.app.myapplication.ui.theme.MyApplicationTheme
 
 /**
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyApplicationTheme  {
-                DashboardScreen()
+                DashboardScreen(viewModel)
             }
         }
     }
