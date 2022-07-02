@@ -23,6 +23,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.app.bookstore.R
 import com.app.bookstore.base.NavScreen
+import com.app.bookstore.feature.favorite.FavoriteScreen
+import com.app.bookstore.feature.search.SearchScreen
 
 
 /**
@@ -44,6 +46,12 @@ fun DashboardScreen(){
             NavHost(navController, startDestination = NavScreen.Dashboard.route, Modifier.padding(innerPadding)) {
                 composable(NavScreen.Dashboard.route) {
 
+                }
+                composable(NavScreen.Favorite.route){
+                    FavoriteScreen()
+                }
+                composable(NavScreen.Search.route){
+                   SearchScreen()
                 }
             }
         }
