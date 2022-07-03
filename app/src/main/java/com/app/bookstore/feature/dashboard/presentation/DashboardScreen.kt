@@ -1,7 +1,14 @@
 package com.app.bookstore.feature.dashboard.presentation
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -11,13 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,13 +45,17 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import com.app.bookstore.R
 import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
 import com.app.bookstore.base.LoadingView
 import com.app.bookstore.base.NavScreen
 import com.app.bookstore.feature.dashboard.data.BookResult
+import com.app.bookstore.feature.dashboard.data.VolumeInfo
 import com.app.bookstore.feature.favorite.FavoriteScreen
 import com.app.bookstore.feature.search.SearchScreen
 
@@ -63,6 +78,7 @@ fun DashboardScreen(viewModel: DashboardViewModel){
             Column(
                 modifier = Modifier
                     .padding(bottom = innerPadding.calculateBottomPadding())
+                .background(colorResource(id = R.color.white))
             )
             { BooksList(viewModel) }
 
@@ -81,6 +97,7 @@ fun DashboardScreen(viewModel: DashboardViewModel){
 @Composable
 fun BooksList(viewModel: DashboardViewModel) {
     val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
+
     LazyColumn {
         items(lazyMovieItems) { books ->
             BookItem(books)
@@ -119,39 +136,62 @@ fun BooksList(viewModel: DashboardViewModel) {
 @Composable
 fun BookItem(book: BookResult?) {
     book?.run {
-        Row(
+        Card(
             modifier = Modifier
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(15.dp)
+                .clickable { },
+            elevation = 10.dp
         ) {
-            BookTitle(
-                volumeInfo?.title.orEmpty(),
-                modifier = Modifier.weight(1f)
-            )
-            BookImage(
-                volumeInfo?.imageLinks?.smallThumbnail.orEmpty(),
-                modifier = Modifier.padding(start = 16.dp)
-            )
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
+
+            ) {
+             BookColumnView(volumeInfo = volumeInfo)
+            }
         }
     }
+}
+@Composable
+fun BookColumnView(volumeInfo: VolumeInfo?){
+    BookTitle(
+        volumeInfo?.title.orEmpty()
+    )
+    BookPublishedDate(
+        volumeInfo?.publishedDate.orEmpty(),
+    )
+    BookImage(
+        volumeInfo?.imageLinks?.smallThumbnail.orEmpty()
+    )
+    BookDescription(
+        volumeInfo?.description.orEmpty(),
+        modifier = Modifier.padding(16.dp)
+    )
 }
 
 @Composable
 fun BookImage(
-    imageUrl: String,
-    modifier: Modifier = Modifier
+    imageUrl: String
 ) {
     AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data("")
-            .crossfade(true)
-            .build(),
-        placeholder = painterResource(R.drawable.ic_broken_image),
-        contentDescription = stringResource(R.string.home_title),
-        contentScale = ContentScale.Fit,
-        modifier = modifier
+        model = imageUrl,
+        contentDescription = "Book Review",
+        error = painterResource(R.drawable.ic_broken_image),
+        modifier = Modifier.padding(16.dp)
+    )
+}
+
+@Composable
+fun BookDescription(
+    description: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = description,
+        style = MaterialTheme.typography.caption,
+        overflow = TextOverflow.Clip,
     )
 }
 
@@ -165,7 +205,22 @@ fun BookTitle(
         text = title,
         maxLines = 2,
         style = MaterialTheme.typography.h6,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        color = Color.DarkGray
+    )
+}
+@Composable
+fun BookPublishedDate(
+    subTitle: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = subTitle,
+        maxLines = 2,
+        style = MaterialTheme.typography.subtitle1,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.Bold
     )
 }
 
