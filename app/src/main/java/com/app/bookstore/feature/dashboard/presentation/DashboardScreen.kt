@@ -1,34 +1,22 @@
 package com.app.bookstore.feature.dashboard.presentation
 
-import androidx.compose.foundation.Image
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,10 +33,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
-import coil.size.Size
 import com.app.bookstore.R
 import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
@@ -58,6 +42,12 @@ import com.app.bookstore.feature.dashboard.data.BookResult
 import com.app.bookstore.feature.dashboard.data.VolumeInfo
 import com.app.bookstore.feature.favorite.FavoriteScreen
 import com.app.bookstore.feature.search.SearchScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavArgumentBuilder
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.app.bookstore.feature.detail.presentation.DetailScreen as DetailScreen
 
 /**
  * Created by Nalan Ulusoy on 30,Haziran,2022
@@ -66,41 +56,77 @@ import com.app.bookstore.feature.search.SearchScreen
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel){
       val  navController = rememberNavController()
-        val items = listOf(
-            NavScreen.Dashboard,
-            NavScreen.Favorite,
-            NavScreen.Search
-        )
-        Scaffold(
-            topBar =  { AppBar() },
-            bottomBar = { BottomBar(navController = navController, items = items) }
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(bottom = innerPadding.calculateBottomPadding())
-                .background(colorResource(id = R.color.white))
-            )
-            { BooksList(viewModel) }
-
-            NavHost(navController, startDestination = NavScreen.Dashboard.route, Modifier.padding(innerPadding)) {
-                composable(NavScreen.Dashboard.route) {
-                }
-                composable(NavScreen.Favorite.route){
-                    FavoriteScreen()
-                }
-                composable(NavScreen.Search.route){
-                   SearchScreen()
+    ProvideWindowInsets {
+        NavHost(
+            navController,
+            startDestination = NavScreen.Dashboard.route,
+            Modifier.padding()
+        ) {
+            composable(NavScreen.Dashboard.route) {
+             MainScreen(navController = navController, viewModel =viewModel , route = NavScreen.Dashboard.route)
+            }
+            composable(NavScreen.Favorite.route) {
+                MainScreen(navController = navController, viewModel =viewModel , route = NavScreen.Favorite.route)
+            }
+            composable(NavScreen.Search.route) {
+                MainScreen(navController = navController, viewModel =viewModel , route = NavScreen.Search.route)
+            }
+            composable(
+                NavScreen.Detail.route,
+                arguments = listOf(navArgument("id") { type = NavType.StringType })
+            ) {
+                DetailScreen(
+                    viewModel = hiltViewModel(),
+                    it.arguments?.getString("id").orEmpty()
+                ) {
+                    navController.navigateUp()
                 }
             }
         }
     }
-@Composable
-fun BooksList(viewModel: DashboardViewModel) {
-    val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
+  }
 
+@Composable
+fun MainScreen(navController: NavController,viewModel: DashboardViewModel,route:String){
+    val items = listOf(
+        NavScreen.Dashboard,
+        NavScreen.Favorite,
+        NavScreen.Search
+    )
+    Scaffold(
+        topBar = { AppBar() },
+        backgroundColor = MaterialTheme.colors.primarySurface,
+        bottomBar = { BottomBar(navController = navController, items = items) }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(bottom = innerPadding.calculateBottomPadding())
+                .background(colorResource(id = R.color.white))
+        )
+        {
+            when(route){
+                NavScreen.Dashboard.route -> BooksList(viewModel, navController)
+                NavScreen.Search.route -> SearchScreen()
+                NavScreen.Favorite.route -> FavoriteScreen()
+            }
+        }
+    }
+}
+
+@Composable
+fun BooksList(viewModel: DashboardViewModel,navController: NavController) {
+    val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
     LazyColumn {
+
         items(lazyMovieItems) { books ->
-            BookItem(books)
+            BookItem(books, onClickStartSource = {
+                navController.navigate("detailScreen/" + books?.id){
+                    popUpTo("detailScreen/" + books?.id) {
+                        inclusive = true
+                    }
+                }
+            }
+            )
         }
         lazyMovieItems.apply {
             when {
@@ -134,12 +160,13 @@ fun BooksList(viewModel: DashboardViewModel) {
     }
 }
 @Composable
-fun BookItem(book: BookResult?) {
+fun BookItem(book: BookResult?,onClickStartSource : () -> Unit) {
     book?.run {
         Card(
             modifier = Modifier
                 .padding(15.dp)
-                .clickable { },
+                .clickable(onClick = onClickStartSource)
+          ,
             elevation = 10.dp
         ) {
             Column(
@@ -170,6 +197,8 @@ fun BookColumnView(volumeInfo: VolumeInfo?){
     )
 }
 
+
+
 @Composable
 fun BookImage(
     imageUrl: String
@@ -178,7 +207,11 @@ fun BookImage(
         model = imageUrl,
         contentDescription = "Book Review",
         error = painterResource(R.drawable.ic_broken_image),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentScale = ContentScale.Inside,
     )
 }
 

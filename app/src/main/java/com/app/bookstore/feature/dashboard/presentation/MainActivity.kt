@@ -20,9 +20,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MyApplicationTheme  {
+            MyApplicationTheme {
                 DashboardScreen(viewModel)
             }
         }
     }
-    }
+}
