@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.app.bookstore.R
 
-
 /**
  * Created by Nalan Ulusoy on 02,Temmuz,2022
  */
@@ -27,13 +26,13 @@ fun FavoriteScreen(){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.white))
             .wrapContentSize(Alignment.Center)
     ){
         Text(
             text = "Favorite Screen",
             textAlign = TextAlign.Center,
             maxLines = 2,
+            color = colorResource(id =R.color.black),
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
             modifier = Modifier

@@ -18,7 +18,7 @@ sealed class NavScreen (val route: String,@StringRes val resourceId: Int,val bot
     object Dashboard : NavScreen("dashboardScreen", R.string.home_title,BottomBarData.DASHBOARD)
     object Favorite : NavScreen("favoriteScreen", R.string.favorite_title,BottomBarData.FAVORITE)
     object Search : NavScreen("searchScreen", R.string.search_title,BottomBarData.SEARCH)
-    object Detail : NavScreen("detailScreen", R.string.detail_title)
+    object Detail : NavScreen("detailScreen/{id}", R.string.detail_title)
 }
 
 enum class BottomBarData( @StringRes val title: Int, val icon: ImageVector) {

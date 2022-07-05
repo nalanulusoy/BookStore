@@ -2,6 +2,7 @@ package com.app.bookstore.di
 
 import com.app.bookstore.BuildConfig
 import com.app.bookstore.feature.dashboard.data.BookListApiService
+import com.app.bookstore.feature.detail.data.VolumeDetailApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,5 +52,11 @@ object NetworkModule {
     @Singleton
     fun provideBookListApiService(retrofit: Retrofit): BookListApiService {
         return retrofit.create(BookListApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideVolumeDetailApiService(retrofit: Retrofit): VolumeDetailApiService {
+        return retrofit.create(VolumeDetailApiService::class.java)
     }
 }
