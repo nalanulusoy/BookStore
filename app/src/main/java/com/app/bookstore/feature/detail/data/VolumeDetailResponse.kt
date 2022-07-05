@@ -1,6 +1,6 @@
 package com.app.bookstore.feature.detail.data
 
-import com.app.bookstore.feature.dashboard.data.VolumeInfo
+import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
 
 /**

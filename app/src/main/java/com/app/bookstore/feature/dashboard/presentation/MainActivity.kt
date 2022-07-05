@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.compose.setContent
 import com.app.bookstore.feature.dashboard.presentation.DashboardViewModel
+import com.app.bookstore.feature.dashboard.presentation.MainScreen
 import com.app.myapplication.ui.theme.MyApplicationTheme
 
 /**
@@ -18,10 +19,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             MyApplicationTheme {
-                DashboardScreen(viewModel)
+                MainScreen(viewModel)
             }
         }
     }
