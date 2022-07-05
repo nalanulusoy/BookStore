@@ -10,17 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.app.bookstore.R
-import com.google.accompanist.flowlayout.FlowColumn
-import kotlinx.coroutines.flow.retry
 
 /**
  * Created by Nalan Ulusoy on 30,Haziran,2022
@@ -33,30 +31,55 @@ fun DetailScreen(viewModel: DetailViewModel, id: String, pressOnBack: () -> Unit
         viewModel.fetchVolumeIdById(id)
     }
     val detailData = viewModel.detailData.collectAsState(initial = null)
-
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .background(colorResource(id = R.color.white))
             .fillMaxSize(),
     ) {
-        AppBar(pressOnBack)
-        FlowColumn() {
-            Text(
-                text = detailData.value?.selfLink.orEmpty(),
-                style = MaterialTheme.typography.body1,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
+            detailData.value?.run {
+                AppBar(volumeInfo?.title.orEmpty(),pressOnBack)
+                BookImage(imageUrl = volumeInfo.imageLinks?.thumbnail.orEmpty())
+                BookDescription(description = volumeInfo.description.orEmpty())
+            }
         Spacer(modifier = Modifier.height(24.dp))
     }
+}
+@Composable
+fun BookImage(
+    imageUrl: String
+) {
+    AsyncImage(
+        model = imageUrl,
+        contentDescription = "Book Review",
+        error = painterResource(R.drawable.ic_broken_image),
+        modifier = Modifier
+            .padding(16.dp)
+            .width(100.dp)
+            .height(100.dp),
+        contentScale = ContentScale.Fit,
+        alignment = Alignment.Center
+    )
+}
+
+@Composable
+fun BookDescription(
+    description: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = description,
+        style = MaterialTheme.typography.caption,
+        overflow = TextOverflow.Clip,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium
+    )
 }
 
 @Composable
 fun AppBar(
+    title:String,
     pressOnBack: () -> Unit
 ) {
     TopAppBar(
@@ -66,7 +89,6 @@ fun AppBar(
     ) {
         Row {
             Spacer(modifier = Modifier.width(10.dp))
-
             Image(
                 imageVector = Icons.Filled.ArrowBack,
                 colorFilter = ColorFilter.tint(Color.White),
@@ -84,7 +106,7 @@ fun AppBar(
                 modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.CenterVertically),
-                text = stringResource(id = R.string.detail_title),
+                text = title,
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold

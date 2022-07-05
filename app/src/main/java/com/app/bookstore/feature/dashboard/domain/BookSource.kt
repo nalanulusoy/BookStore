@@ -2,7 +2,7 @@ package com.app.bookstore.feature.dashboard.domain
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.app.bookstore.feature.dashboard.data.BookResult
+import com.app.bookstore.feature.dashboard.data.response.BookResult
 
 
 /**
@@ -13,7 +13,7 @@ class BookSource (private val repository: BookListRepository): PagingSource<Int,
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BookResult> {
         return try {
             val nextPage = params.key ?: 1
-            val response  = repository.getBookList(BookListRepository.Params(nextPage,"temp","AIzaSyBFjF3etM9cLDeIVAxq1LiN-dIPyfbK3w0"))
+            val response  = repository.getBookList(BookListRepository.Params(nextPage,"programing","AIzaSyBFjF3etM9cLDeIVAxq1LiN-dIPyfbK3w0"))
 
             LoadResult.Page(
                 data = response.items,

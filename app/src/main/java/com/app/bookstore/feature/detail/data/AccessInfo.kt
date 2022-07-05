@@ -1,6 +1,6 @@
 package com.app.bookstore.feature.detail.data
 
-import com.app.bookstore.feature.dashboard.data.Pdf
+import com.app.bookstore.feature.dashboard.data.response.Pdf
 
 data class AccessInfo(
     val accessViewStatus: String,
