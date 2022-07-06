@@ -25,6 +25,7 @@ import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
 import com.app.bookstore.base.LoadingView
 import com.app.bookstore.base.NavScreen
+import com.app.bookstore.component.FavoriteButton
 import com.app.bookstore.feature.dashboard.data.response.BookResult
 import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
@@ -117,6 +118,9 @@ fun BookColumnView(volumeInfo: VolumeInfo?){
     BookImage(
         volumeInfo?.imageLinks?.smallThumbnail.orEmpty()
     )
+    FavoriteButton(isChecked = false) {
+
+    }
 }
 
 @Composable
