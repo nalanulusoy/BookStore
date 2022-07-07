@@ -1,7 +1,7 @@
 package com.app.bookstore.feature.detail.presentation
 
 import com.app.bookstore.base.BaseViewModel
-import com.app.bookstore.base.LoadingView
+import com.app.bookstore.base.networkstate.Resource
 import com.app.bookstore.feature.detail.data.VolumeDetailResponse
 import com.app.bookstore.feature.detail.domain.VolumeDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +15,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val repository: VolumeDetailRepository) : BaseViewModel() {
 
     private val volumeId : MutableStateFlow<String> = MutableStateFlow("")
-    val detailData : Flow<VolumeDetailResponse> = volumeId.flatMapLatest {  repository.getVolumeService(VolumeDetailRepository.Params(it))}
+    val detailData : Flow<Resource<VolumeDetailResponse>> = volumeId.flatMapLatest {  repository.getVolumeService(VolumeDetailRepository.Params(it))}
+
     fun fetchVolumeIdById(id: String) = volumeId.tryEmit(id)
 }

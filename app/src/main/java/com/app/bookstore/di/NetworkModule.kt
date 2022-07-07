@@ -1,15 +1,18 @@
 package com.app.bookstore.di
 
 import com.app.bookstore.BuildConfig
+import com.app.bookstore.base.networkstate.FlowCallAdapterFactory
 import com.app.bookstore.feature.dashboard.data.BookListApiService
 import com.app.bookstore.feature.detail.data.VolumeDetailApiService
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -20,6 +23,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
+
     @Singleton
     @Provides
     fun provideHttpClient(): OkHttpClient {
@@ -32,19 +40,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory(): GsonConverterFactory =
-        GsonConverterFactory.create()
+    fun provideConverterFactory() : MoshiConverterFactory= MoshiConverterFactory.create(moshi)
+
 
     @Singleton
     @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
+        moshiConverterFactory: MoshiConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(FlowCallAdapterFactory.create())
+            .addConverterFactory(moshiConverterFactory)
             .build()
     }
 

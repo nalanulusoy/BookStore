@@ -33,8 +33,11 @@ import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import com.app.bookstore.BuildConfig
 import com.app.bookstore.R
+import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
 import com.app.bookstore.base.LoadingView
+import com.app.bookstore.base.networkstate.Resource
+import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -47,30 +50,41 @@ import kotlinx.coroutines.flow.onStart
 @SuppressLint("FlowOperatorInvokedInComposition")
 @Composable
 fun DetailScreen(viewModel: DetailViewModel, id: String, pressOnBack: () -> Unit) {
-    val showLoading = remember { mutableStateOf(false) }
-    if (showLoading.value) {
-       LoadingItem()
-    }
     LaunchedEffect(id) {
         viewModel.fetchVolumeIdById(id)
     }
-    val detailData = viewModel.detailData.onStart {
-        showLoading.value = true
-    }.collectAsState(initial = null)
-
+    val detailData = viewModel.detailData.collectAsState(initial = null)
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
+            .background(colorResource(id = R.color.purple_700))
+            .fillMaxHeight()
+            .fillMaxWidth()
             .background(colorResource(id = R.color.white))
             .fillMaxSize(),
     ) {
-            detailData.value?.run {
-                AppBar(volumeInfo?.title.orEmpty(),pressOnBack)
-                BookImage(imageUrl = volumeInfo.imageLinks?.smallThumbnail.orEmpty())
-                BookPrice(price = saleInfo.listPrice?.amount.toString().orEmpty()+ "" +saleInfo.listPrice?.currencyCode.orEmpty())
-                LinkView(saleInfo.buyLink,volumeInfo.previewLink)
-                BookDescription(description = volumeInfo.description.orEmpty())
-            }
+         detailData.value?.status.run {
+             when(this){
+                 Resource.Status.SUCCESS -> {
+                     detailData.value?.data?.run {
+                         AppBar(volumeInfo.title.orEmpty(),pressOnBack)
+                         BookImage(imageUrl = volumeInfo.imageLinks?.thumbnail.orEmpty())
+                         BookPrice(price = saleInfo.listPrice?.amount.toString().orEmpty()+ "" +saleInfo.listPrice?.currencyCode.orEmpty())
+                         LinkView(saleInfo.buyLink,volumeInfo.previewLink)
+                         BookDescription(description = volumeInfo.description.orEmpty())
+                     }
+                 }
+                Resource.Status.LOADING -> LoadingItem()
+
+                 is Resource.Status.ERROR -> {
+                     val error = detailData.value?.status as Resource.Status.ERROR
+                     ErrorItem(message = error.message, modifier = Modifier, onClickRetry = {})
+                 }
+
+                 else -> {}
+             }
+         }
+
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
