@@ -14,5 +14,7 @@ data class VolumeInfo (@SerializedName("title") val title : String?,
                        @SerializedName("pageCount") val pageCount : Int?,
                        @SerializedName("categories") val categories : List<String>?,
                        @SerializedName("imageLinks") val imageLinks : ImageLinks?,
-                       @SerializedName("language") val language : String?
+                       @SerializedName("language") val language : String?,
+                       @SerializedName("previewLink") val previewLink: String
+
 )
