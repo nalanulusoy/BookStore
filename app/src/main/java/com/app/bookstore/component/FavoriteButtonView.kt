@@ -19,7 +19,7 @@ import com.app.bookstore.R
  * Created by Nalan Ulusoy on 05,Temmuz,2022
  */
 @Composable
-fun FavoriteButton(
+fun FavoriteButtonView(
     modifier: Modifier = Modifier,
     color: Color = Color(R.color.purple_700),
     isChecked:Boolean = false
@@ -54,7 +54,7 @@ fun FavoriteButtonPreview() {
     val (isChecked) = remember { mutableStateOf(false) }
     MaterialTheme {
         Surface {
-            FavoriteButton(
+            FavoriteButtonView(
                 isChecked = isChecked
             )
         }

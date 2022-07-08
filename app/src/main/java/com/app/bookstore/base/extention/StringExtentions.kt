@@ -6,3 +6,8 @@ package com.app.bookstore.base.extention
  */
 const val COMMON_API_ROUTE_BOOK_LIST = "volumes?maxResults=40"
 const val COMMON_API_ROUTE_BOOK_DETAIL = "volumes/{id}"
+const val EMPTY = ""
+const val SEARCH_STRING = "programing"
+const val GOOGLE_API_KEY = "AIzaSyBFjF3etM9cLDeIVAxq1LiN-dIPyfbK3w0"
+const val BookPdfLink = "PreviewPdfLink"
+const val BookBuyLink = "BuyBookLink"

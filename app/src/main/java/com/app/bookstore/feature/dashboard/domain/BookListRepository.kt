@@ -7,9 +7,9 @@ import com.app.bookstore.feature.dashboard.data.BookListApiService
  */
 class BookListRepository constructor(private val apiService: BookListApiService) {
 
-    suspend fun getBookList(params:Params) = params.run{
-        apiService.getBookList(startIndex, searchString,apiKey)
-        }
+    suspend fun getBookList(params: Params) = params.run {
+        apiService.getBookList(startIndex, searchString, apiKey)
+    }
 
     data class Params(
         val startIndex: Int,

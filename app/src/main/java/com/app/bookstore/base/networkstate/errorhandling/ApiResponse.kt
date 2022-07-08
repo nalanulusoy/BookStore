@@ -1,4 +1,4 @@
-package com.app.bookstore.base.networkstate
+package com.app.bookstore.base.networkstate.errorhandling
 
 import retrofit2.Response
 

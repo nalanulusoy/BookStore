@@ -1,5 +1,6 @@
 package com.app.bookstore.base.networkstate
 
+import com.app.bookstore.base.networkstate.errorhandling.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.CallAdapter

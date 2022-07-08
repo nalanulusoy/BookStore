@@ -4,6 +4,7 @@ package com.app.bookstore.base.networkstate
 /**
  * Created by Nalan Ulusoy on 07,Temmuz,2022
  */
+import com.app.bookstore.base.networkstate.errorhandling.ApiResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -22,7 +22,7 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideBookListRepository(
         apiService: BookListApiService
-    ) : BookListRepository{
+    ): BookListRepository {
         return BookListRepository(apiService)
     }
 
@@ -30,7 +30,7 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideVolumeDetailRepository(
         apiService: VolumeDetailApiService
-    ) : VolumeDetailRepository{
+    ): VolumeDetailRepository {
         return VolumeDetailRepository(apiService)
     }
 }

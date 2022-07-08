@@ -19,7 +19,7 @@ import com.app.bookstore.R
  * Created by Nalan Ulusoy on 02,Temmuz,2022
  */
 @Composable
-fun SearchScreen(){
+fun SearchScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +29,7 @@ fun SearchScreen(){
             text = "Search Screen",
             textAlign = TextAlign.Center,
             maxLines = 2,
-            color = colorResource(id =R.color.black),
+            color = colorResource(id = R.color.black),
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
             modifier = Modifier

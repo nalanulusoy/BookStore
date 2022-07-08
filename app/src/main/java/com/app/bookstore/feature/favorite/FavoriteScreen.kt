@@ -1,11 +1,9 @@
 package com.app.bookstore.feature.favorite
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,17 +20,17 @@ import com.app.bookstore.R
  */
 
 @Composable
-fun FavoriteScreen(){
+fun FavoriteScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
-    ){
+    ) {
         Text(
             text = "Favorite Screen",
             textAlign = TextAlign.Center,
             maxLines = 2,
-            color = colorResource(id =R.color.black),
+            color = colorResource(id = R.color.black),
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
             modifier = Modifier

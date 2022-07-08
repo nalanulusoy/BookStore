@@ -4,13 +4,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -19,13 +21,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import coil.compose.AsyncImage
-import com.app.bookstore.R
 import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
 import com.app.bookstore.base.LoadingView
 import com.app.bookstore.base.NavScreen
-import com.app.bookstore.component.FavoriteButton
+import com.app.bookstore.component.BookImageView
+import com.app.bookstore.component.FavoriteButtonView
 import com.app.bookstore.feature.dashboard.data.response.BookResult
 import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
@@ -34,7 +35,7 @@ import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
  */
 
 @Composable
-fun BooksList(viewModel: DashboardViewModel,navController: NavController) {
+fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
     val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
     LazyColumn {
         items(lazyMovieItems) { books ->
@@ -47,11 +48,11 @@ fun BooksList(viewModel: DashboardViewModel,navController: NavController) {
             }
             )
         }
-       getLoadingState(lazyMovieItems,this)
+        getLoadingState(lazyMovieItems, this)
     }
 }
 
-fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult> ,scope: LazyListScope){
+fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyListScope) {
     lazyMovieItems.apply {
         scope.run {
             when {
@@ -86,15 +87,16 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult> ,scope: LazyList
 }
 
 @Composable
-fun BookItem(book: BookResult?, onClickStartSource : () -> Unit) {
+fun BookItem(book: BookResult?, onClickStartSource: () -> Unit) {
     book?.run {
-            Card(
-                modifier = Modifier
-                    .padding(15.dp)
-                    .clickable(onClick = onClickStartSource),
-                elevation = 10.dp
-            ) {
-                Box() {
+        Card(
+            modifier = Modifier
+                .padding(15.dp)
+                .clickable(onClick = onClickStartSource),
+            elevation = 10.dp,
+            shape = RoundedCornerShape(10)
+        ) {
+            Box() {
                 Column(
                     modifier = Modifier
                         .padding(start = 16.dp, top = 16.dp, end = 16.dp)
@@ -106,9 +108,10 @@ fun BookItem(book: BookResult?, onClickStartSource : () -> Unit) {
                 Surface(
                     modifier = Modifier
                         .padding(6.dp)
-                        .size(32.dp).align(Alignment.BottomEnd),
+                        .size(32.dp)
+                        .align(Alignment.BottomEnd),
                 ) {
-                    FavoriteButton(modifier = Modifier.padding(8.dp))
+                    FavoriteButtonView(modifier = Modifier.padding(8.dp))
                 }
             }
         }
@@ -116,31 +119,15 @@ fun BookItem(book: BookResult?, onClickStartSource : () -> Unit) {
 }
 
 @Composable
-fun BookColumnView(volumeInfo: VolumeInfo?){
+fun BookColumnView(volumeInfo: VolumeInfo?) {
     BookTitle(
         volumeInfo?.title.orEmpty()
     )
     BookPublishedDate(
         volumeInfo?.publishedDate.orEmpty(),
     )
-    BookImage(
+    BookImageView(
         volumeInfo?.imageLinks?.smallThumbnail.orEmpty()
-    )
-}
-
-@Composable
-fun BookImage(
-    imageUrl: String
-) {
-    AsyncImage(
-        model = imageUrl,
-        contentDescription = "Book Review",
-        error = painterResource(R.drawable.ic_broken_image),
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        contentScale = ContentScale.Inside,
     )
 }
 

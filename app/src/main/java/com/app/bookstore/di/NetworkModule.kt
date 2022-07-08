@@ -24,7 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    val moshi = Moshi.Builder()
+    private val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
@@ -40,7 +40,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory() : MoshiConverterFactory= MoshiConverterFactory.create(moshi)
+    fun provideConverterFactory(): MoshiConverterFactory = MoshiConverterFactory.create(moshi)
 
 
     @Singleton
