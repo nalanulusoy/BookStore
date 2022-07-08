@@ -12,10 +12,12 @@ import javax.inject.Inject
  * Created by nalanulusoy on 11,Mart,2022
  */
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val repository: VolumeDetailRepository) : BaseViewModel() {
+class DetailViewModel @Inject constructor(private val repository: VolumeDetailRepository) :
+    BaseViewModel() {
 
-    private val volumeId : MutableStateFlow<String> = MutableStateFlow("")
-    val detailData : Flow<Resource<VolumeDetailResponse>> = volumeId.flatMapLatest {  repository.getVolumeService(VolumeDetailRepository.Params(it))}
+    private val volumeId: MutableStateFlow<String> = MutableStateFlow("")
+    val detailData: Flow<Resource<VolumeDetailResponse>> =
+        volumeId.flatMapLatest { repository.getVolumeService(VolumeDetailRepository.Params(it)) }
 
     fun fetchVolumeIdById(id: String) = volumeId.tryEmit(id)
 }

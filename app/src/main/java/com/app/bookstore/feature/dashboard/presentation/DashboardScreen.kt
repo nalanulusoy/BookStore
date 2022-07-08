@@ -3,10 +3,10 @@ package com.app.bookstore.feature.dashboard.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -88,20 +88,28 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult> ,scope: LazyList
 @Composable
 fun BookItem(book: BookResult?, onClickStartSource : () -> Unit) {
     book?.run {
-        Card(
-            modifier = Modifier
-                .padding(15.dp)
-                .clickable(onClick = onClickStartSource)
-          ,
-            elevation = 10.dp
-        ) {
-            Column(
+            Card(
                 modifier = Modifier
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp)
-                    .fillMaxWidth()
-
+                    .padding(15.dp)
+                    .clickable(onClick = onClickStartSource),
+                elevation = 10.dp
             ) {
-             BookColumnView(volumeInfo = volumeInfo)
+                Box() {
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                        .fillMaxWidth()
+
+                ) {
+                    BookColumnView(volumeInfo = volumeInfo)
+                }
+                Surface(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .size(32.dp).align(Alignment.BottomEnd),
+                ) {
+                    FavoriteButton(modifier = Modifier.padding(8.dp))
+                }
             }
         }
     }
@@ -118,9 +126,6 @@ fun BookColumnView(volumeInfo: VolumeInfo?){
     BookImage(
         volumeInfo?.imageLinks?.smallThumbnail.orEmpty()
     )
-    FavoriteButton(isChecked = false) {
-
-    }
 }
 
 @Composable

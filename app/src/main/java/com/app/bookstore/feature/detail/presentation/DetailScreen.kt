@@ -2,24 +2,27 @@ package com.app.bookstore.feature.detail.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.*
+import android.util.TypedValue
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -30,17 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.text.HtmlCompat
 import coil.compose.AsyncImage
-import com.app.bookstore.BuildConfig
 import com.app.bookstore.R
 import com.app.bookstore.base.ErrorItem
 import com.app.bookstore.base.LoadingItem
-import com.app.bookstore.base.LoadingView
 import com.app.bookstore.base.networkstate.Resource
-import com.google.accompanist.flowlayout.MainAxisAlignment
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
 
 /**
  * Created by Nalan Ulusoy on 30,Haziran,2022
@@ -54,40 +52,53 @@ fun DetailScreen(viewModel: DetailViewModel, id: String, pressOnBack: () -> Unit
         viewModel.fetchVolumeIdById(id)
     }
     val detailData = viewModel.detailData.collectAsState(initial = null)
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .background(colorResource(id = R.color.purple_700))
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .background(colorResource(id = R.color.white))
-            .fillMaxSize(),
-    ) {
-         detailData.value?.status.run {
-             when(this){
-                 Resource.Status.SUCCESS -> {
-                     detailData.value?.data?.run {
-                         AppBar(volumeInfo.title.orEmpty(),pressOnBack)
-                         BookImage(imageUrl = volumeInfo.imageLinks?.thumbnail.orEmpty())
-                         BookPrice(price = saleInfo.listPrice?.amount.toString().orEmpty()+ "" +saleInfo.listPrice?.currencyCode.orEmpty())
-                         LinkView(saleInfo.buyLink,volumeInfo.previewLink)
-                         BookDescription(description = volumeInfo.description.orEmpty())
-                     }
-                 }
+    Scaffold(
+        topBar = {
+            AppBar(detailData.value?.data?.volumeInfo?.title.orEmpty(), pressOnBack)
+        }
+    ) { innerPadding ->
+        detailData.value?.status.run {
+            when (this) {
+                Resource.Status.SUCCESS -> {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            item() {
+                                detailData.value?.data?.run {
+
+                                    BookImage(imageUrl = volumeInfo.imageLinks?.smallThumbnail.orEmpty())
+                                    BookPrice(
+                                        price = saleInfo.listPrice?.amount.toString()
+                                            .orEmpty() + "" + saleInfo.listPrice?.currencyCode.orEmpty()
+                                    )
+                                    LinkView(saleInfo.buyLink, volumeInfo.previewLink)
+                                    BookDescription(description = volumeInfo.description.orEmpty())
+                                }
+                            }
+                        }
+                    }
+                }
+
                 Resource.Status.LOADING -> LoadingItem()
 
-                 is Resource.Status.ERROR -> {
-                     val error = detailData.value?.status as Resource.Status.ERROR
-                     ErrorItem(message = error.message, modifier = Modifier, onClickRetry = {})
-                 }
+                is Resource.Status.ERROR -> {
+                    val error = detailData.value?.status as Resource.Status.ERROR
+                    ErrorItem(
+                        message = error.message,
+                        modifier = Modifier,
+                        onClickRetry = {})
+                }
 
-                 else -> {}
-             }
-         }
-
-        Spacer(modifier = Modifier.height(24.dp))
+                else -> {}
+            }
+        }
     }
 }
+
 
 @Composable
 fun BookImage(
@@ -107,76 +118,95 @@ fun BookImage(
 }
 
 @Composable
-fun BookDescription(
-    description: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
+fun BookDescription(description: String, modifier: Modifier = Modifier) {
+    AndroidView(
         modifier = modifier,
-        text = description,
-        style = MaterialTheme.typography.caption,
-        overflow = TextOverflow.Clip,
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Medium
+        factory = { context ->
+            AppCompatTextView(context).apply {
+                setTextColor(context.resources.getColor(R.color.gray))
+                setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    resources.getDimension(R.dimen.description_size))
+            }
+        },
+        update = { it.text = HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY) }
     )
 }
 
 @Composable
-fun LinkView(buyLink: String,previewPdf:String){
- val context = LocalContext.current
-       Row(modifier = Modifier
-           .fillMaxWidth()
-           .fillMaxHeight(),horizontalArrangement = Arrangement.Center){
-           Button(
-               onClick = {
-                   val webIntent: Intent = Uri.parse(previewPdf).let { webpage ->
-                       Intent(Intent.ACTION_VIEW, webpage)
-                   }
-                   startActivity(context, webIntent, null)
-               },
-               modifier = Modifier.padding(16.dp), shape = MaterialTheme.shapes.medium) {
-               Text(
-                   modifier = Modifier,
-                   text = "PreviewPdfLink",
-                   style = MaterialTheme.typography.caption,
-                   overflow = TextOverflow.Clip,
-                   fontSize = 16.sp,
-                   fontWeight = FontWeight.Bold,
-                   color = colorResource(id = R.color.white)
-               )
-           }
+fun LinkView(buyLink: String, previewPdf: String) {
+    val context = LocalContext.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(), horizontalArrangement = Arrangement.Center
+    ) {
+        Button(
+            onClick = {
+                val webIntent: Intent = Uri.parse(previewPdf).let { webpage ->
+                    Intent(Intent.ACTION_VIEW, webpage)
+                }
+                startActivity(context, webIntent, null)
+            },
+            modifier = Modifier
+                .padding(16.dp)
+                .clip(CircleShape), shape = MaterialTheme.shapes.medium
+        ) {
+            Text(
+                modifier = Modifier,
+                text = "PreviewPdfLink",
+                style = MaterialTheme.typography.caption,
+                overflow = TextOverflow.Clip,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.white)
+            )
+        }
 
-           Button(onClick = { startActivity(context,Intent(Intent.ACTION_VIEW, Uri.parse(buyLink)),null) },modifier = Modifier.padding(16.dp), shape = MaterialTheme.shapes.medium) {
-               Text(
-                   modifier = Modifier,
-                   text = "BuyBookLink",
-                   style = MaterialTheme.typography.caption,
-                   overflow = TextOverflow.Clip,
-                   fontSize = 16.sp,
-                   fontWeight = FontWeight.Bold,
-                   color = colorResource(id = R.color.white)
-               )
-           }
-       }
+        Button(
+            onClick = {
+                startActivity(
+                    context,
+                    Intent(Intent.ACTION_VIEW, Uri.parse(buyLink)),
+                    null
+                )
+            }, modifier = Modifier
+                .padding(16.dp)
+                .clip(CircleShape), shape = MaterialTheme.shapes.medium
+        ) {
+            Text(
+                modifier = Modifier,
+                text = "BuyBookLink",
+                style = MaterialTheme.typography.caption,
+                overflow = TextOverflow.Clip,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.white)
+            )
+        }
+    }
 }
 
 @Composable
-fun BookPrice(price:String){
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()) {
-        Card(modifier = Modifier
-            .padding(15.dp)
-            .background(colorResource(id = R.color.cardview_light_background)),
-            elevation = 10.dp
-        ){
+fun BookPrice(price: String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(15.dp),
+            elevation = 10.dp,
+            backgroundColor = colorResource(id = R.color.purple_500)
+        ) {
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = price,
                 style = MaterialTheme.typography.button,
                 overflow = TextOverflow.Clip,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = colorResource(id = R.color.white)
             )
         }
     }
@@ -184,7 +214,7 @@ fun BookPrice(price:String){
 
 @Composable
 fun AppBar(
-    title:String,
+    title: String,
     pressOnBack: () -> Unit
 ) {
     TopAppBar(
