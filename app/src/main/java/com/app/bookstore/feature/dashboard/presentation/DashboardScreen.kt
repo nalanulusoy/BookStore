@@ -27,6 +27,7 @@ import com.app.bookstore.base.LoadingView
 import com.app.bookstore.base.NavScreen
 import com.app.bookstore.component.BookImageView
 import com.app.bookstore.component.FavoriteButtonView
+import com.app.bookstore.db.BookData
 import com.app.bookstore.feature.dashboard.data.response.BookResult
 import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
@@ -39,7 +40,7 @@ fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
     val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
     LazyColumn {
         items(lazyMovieItems) { books ->
-            BookItem(books, onClickStartSource = {
+            BookItem(books, viewModel, onClickStartSource = {
                 navController.navigate(NavScreen.Detail.argDetailScreen + books?.id) {
                     popUpTo(NavScreen.Detail.argDetailScreen + books?.id) {
                         inclusive = true
@@ -87,7 +88,7 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyList
 }
 
 @Composable
-fun BookItem(book: BookResult?, onClickStartSource: () -> Unit) {
+fun BookItem(book: BookResult?, viewModel: DashboardViewModel, onClickStartSource: () -> Unit) {
     book?.run {
         Card(
             modifier = Modifier
@@ -111,12 +112,34 @@ fun BookItem(book: BookResult?, onClickStartSource: () -> Unit) {
                         .size(32.dp)
                         .align(Alignment.BottomEnd),
                 ) {
-                    FavoriteButtonView(modifier = Modifier.padding(8.dp))
+                    val isChecked = findIsCheckedFavorite(book.id, viewModel)
+
+                    FavoriteButtonView(
+                        modifier = Modifier.padding(8.dp),
+                        isChecked = isChecked
+                    ) {
+                        book.volumeInfo?.run {
+                            viewModel.addFavorite(
+                                BookData(
+                                    publishedDate,
+                                    title,
+                                    imageLinks?.smallThumbnail,
+                                    id.orEmpty()
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
+
+fun findIsCheckedFavorite(id: String?, viewModel: DashboardViewModel): Boolean {
+    viewModel.favBooks.map { if (id == it.id.toString()) return true }
+    return false
+}
+
 
 @Composable
 fun BookColumnView(volumeInfo: VolumeInfo?) {

@@ -22,13 +22,15 @@ import com.app.bookstore.R
 fun FavoriteButtonView(
     modifier: Modifier = Modifier,
     color: Color = Color(R.color.purple_700),
-    isChecked:Boolean = false
+    isChecked:Boolean = false,
+    onCheckChange : (Boolean) -> Unit
 ) : Boolean {
     var isFavorite by remember { mutableStateOf(isChecked) }
     IconToggleButton(
         checked = isFavorite,
         onCheckedChange = {
             isFavorite = !isFavorite
+            onCheckChange(isFavorite)
         }
     ) {
         Icon(
@@ -56,7 +58,9 @@ fun FavoriteButtonPreview() {
         Surface {
             FavoriteButtonView(
                 isChecked = isChecked
-            )
+            ){
+
+            }
         }
     }
 }
