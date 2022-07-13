@@ -104,6 +104,7 @@ dependencies {
     //Room
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     //Pagining
     implementation("androidx.paging:paging-runtime-ktx:$paging_version")
@@ -126,6 +127,12 @@ dependencies {
     // compose insets
     implementation "com.google.accompanist:accompanist-insets:$accompanistVersion"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
+
+    //Moshi
+    implementation("com.squareup.moshi:moshi:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'

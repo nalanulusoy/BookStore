@@ -31,10 +31,10 @@ fun LoadingView(
 @Composable
 fun LoadingItem() {
     CircularProgressIndicator(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
             .padding(16.dp)
             .wrapContentWidth(Alignment.CenterHorizontally)
-    )
+            .wrapContentHeight(Alignment.CenterVertically))
 }
 
 @Composable

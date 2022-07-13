@@ -4,8 +4,8 @@ import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
 
 /**
-* Created by Nalan Ulusoy on 04,Temmuz,2022
-*/
+ * Created by Nalan Ulusoy on 04,Temmuz,2022
+ */
 data class VolumeDetailResponse(
     val accessInfo: AccessInfo,
     val etag: String,

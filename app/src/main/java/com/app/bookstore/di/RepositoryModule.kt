@@ -1,7 +1,9 @@
 package com.app.bookstore.di
 
+import com.app.bookstore.db.BookDatabase
 import com.app.bookstore.feature.dashboard.data.BookListApiService
 import com.app.bookstore.feature.dashboard.domain.BookListRepository
+import com.app.bookstore.feature.dashboard.domain.FavoriteBookRepository
 import com.app.bookstore.feature.detail.data.VolumeDetailApiService
 import com.app.bookstore.feature.detail.domain.VolumeDetailRepository
 import dagger.Module
@@ -22,7 +24,7 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideBookListRepository(
         apiService: BookListApiService
-    ) : BookListRepository{
+    ): BookListRepository {
         return BookListRepository(apiService)
     }
 
@@ -30,7 +32,15 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideVolumeDetailRepository(
         apiService: VolumeDetailApiService
-    ) : VolumeDetailRepository{
+    ): VolumeDetailRepository {
         return VolumeDetailRepository(apiService)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFavoriteBookRepository(
+        bookDatabase: BookDatabase
+    ): FavoriteBookRepository {
+        return FavoriteBookRepository(bookDatabase)
     }
 }
