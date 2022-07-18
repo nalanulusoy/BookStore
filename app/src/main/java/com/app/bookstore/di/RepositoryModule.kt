@@ -38,11 +38,4 @@ object RepositoryModule {
         return FavoriteBookRepository(bookDatabase)
     }
 
-    @Provides
-    @ViewModelScoped
-    fun provideFavoriteBookDeleteRepository(
-        bookDatabase: BookDatabase
-    ): FavoriteBookDeleteRepository {
-        return FavoriteBookDeleteRepository(bookDatabase)
-    }
 }

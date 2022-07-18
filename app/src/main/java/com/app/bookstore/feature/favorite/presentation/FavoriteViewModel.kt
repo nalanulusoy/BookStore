@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.bookstore.db.BookData
 import com.app.bookstore.feature.dashboard.domain.FavoriteBookRepository
+import com.app.bookstore.feature.favorite.data.FavoriteBookDeleteDataRepository
 import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class FavoriteViewModel @Inject constructor(private val repository: FavoriteBook
 
     fun deleteFavBook(bookData: BookData){
         viewModelScope.launch {
-            repository.favDeleteBook(FavoriteBookDeleteRepository.Params(bookData))
+            repository.favDeleteBook(bookData)
         }
     }
 }
