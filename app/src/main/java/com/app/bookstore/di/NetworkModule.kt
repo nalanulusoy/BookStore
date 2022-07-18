@@ -56,10 +56,4 @@ object NetworkModule {
             .addConverterFactory(moshiConverterFactory)
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun provideBookListApiService(retrofit: Retrofit): BookListApiService {
-        return retrofit.create(BookListApiService::class.java)
-    }
 }

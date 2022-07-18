@@ -3,8 +3,6 @@ package com.app.bookstore.feature.favorite.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.bookstore.db.BookData
-import com.app.bookstore.feature.dashboard.domain.FavoriteBookRepository
-import com.app.bookstore.feature.favorite.data.FavoriteBookDeleteDataRepository
 import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

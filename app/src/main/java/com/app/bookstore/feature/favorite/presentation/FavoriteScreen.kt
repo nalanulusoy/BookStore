@@ -25,8 +25,7 @@ import swipeCardItem
 @Composable
 fun FavoriteScreen(dashboardViewModel: DashboardViewModel) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.LightGray
+        modifier = Modifier.fillMaxSize()
     ) {
         swipeCardList(dashboardViewModel.favBooks)
     }
