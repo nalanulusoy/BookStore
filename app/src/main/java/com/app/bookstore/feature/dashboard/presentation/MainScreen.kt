@@ -98,7 +98,7 @@ fun CommonNavController(
             when (route) {
                 NavScreen.Dashboard.route -> BooksList(viewModel, navController)
                 NavScreen.Search.route -> SearchScreen()
-                NavScreen.Favorite.route -> FavoriteScreen()
+                NavScreen.Favorite.route -> FavoriteScreen(viewModel)
             }
         }
     }

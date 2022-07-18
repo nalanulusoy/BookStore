@@ -10,17 +10,17 @@ import com.app.bookstore.feature.dashboard.data.response.BookResult
 /**
  * Created by Nalan Ulusoy on 02,Temmuz,2022
  */
-class BookSource(private val repository: BookListRepository) : PagingSource<Int, BookResult>() {
+class BookSource(private val repository: BookDashboardRepository) :
+    PagingSource<Int, BookResult>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BookResult> {
         return try {
             val nextPage = params.key ?: 1
             val response = repository.getBookList(
-                BookListRepository.Params(
-                    nextPage,
-                    SEARCH_STRING,
-                    GOOGLE_API_KEY
-                )
+                nextPage,
+                SEARCH_STRING,
+                GOOGLE_API_KEY
+
             )
 
             LoadResult.Page(

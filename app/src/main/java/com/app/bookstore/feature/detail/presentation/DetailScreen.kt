@@ -28,6 +28,8 @@ import com.app.bookstore.component.AppBarView
 import com.app.bookstore.component.BookImageView
 import com.app.bookstore.component.HtmlTextView
 import com.app.bookstore.component.ShapeButtonView
+import com.app.bookstore.db.BookData
+import com.app.bookstore.feature.detail.data.response.VolumeDetailResponse
 
 /**
  * Created by Nalan Ulusoy on 30,Haziran,2022
@@ -48,7 +50,7 @@ fun DetailScreen(viewModel: DetailViewModel, id: String, pressOnBack: () -> Unit
             )
         }
     ) { innerPadding ->
-        detailData.value?.status.run {
+        detailData?.value?.status.run {
             when (this) {
                 Resource.Status.SUCCESS -> {
                     Box(

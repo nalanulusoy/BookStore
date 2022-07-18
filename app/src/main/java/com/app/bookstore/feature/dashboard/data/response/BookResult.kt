@@ -1,6 +1,6 @@
 package com.app.bookstore.feature.dashboard.data.response
 
-import com.app.bookstore.feature.detail.data.AccessInfo
+import com.app.bookstore.feature.detail.data.response.AccessInfo
 import com.google.gson.annotations.SerializedName
 
 

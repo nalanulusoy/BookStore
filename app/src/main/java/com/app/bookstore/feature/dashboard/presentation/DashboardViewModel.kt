@@ -1,7 +1,6 @@
 package com.app.bookstore.feature.dashboard.presentation
 
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,9 +8,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.app.bookstore.db.BookData
 import com.app.bookstore.feature.dashboard.data.response.BookResult
-import com.app.bookstore.feature.dashboard.domain.BookListRepository
+import com.app.bookstore.feature.dashboard.domain.BookDashboardRepository
 import com.app.bookstore.feature.dashboard.domain.BookSource
-import com.app.bookstore.feature.dashboard.domain.FavoriteBookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -22,12 +20,11 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val bookListRepository: BookListRepository,
-    private val favoriteBookRepository: FavoriteBookRepository
+    private val repository: BookDashboardRepository
 ) :
     ViewModel() {
     val books: Flow<PagingData<BookResult>> = Pager(PagingConfig(pageSize = 20)) {
-        BookSource(bookListRepository)
+        BookSource(repository)
     }.flow
 
     lateinit var favBooks: List<BookData>
@@ -39,7 +36,7 @@ class DashboardViewModel @Inject constructor(
     private fun getFavBooks() {
         viewModelScope.launch {
             try {
-                favoriteBookRepository.getFavoriteBooksData().collect { value ->
+                repository.getFavoriteBooksData().collect { value ->
                     favBooks = value
 
                 }
@@ -51,7 +48,7 @@ class DashboardViewModel @Inject constructor(
 
     fun addFavorite(bookData: BookData) {
         viewModelScope.launch {
-            favoriteBookRepository.addFavoriteBook(FavoriteBookRepository.Params(bookData))
+            repository.addFavoriteBook(bookData)
         }
     }
 
