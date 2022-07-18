@@ -37,9 +37,9 @@ import com.app.bookstore.feature.dashboard.data.response.VolumeInfo
 
 @Composable
 fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
-    val lazyMovieItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
+    val lazyBookItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
     LazyColumn {
-        items(lazyMovieItems) { books ->
+        items(lazyBookItems) { books ->
             BookItem(books, viewModel, onClickStartSource = {
                 navController.navigate(NavScreen.Detail.argDetailScreen + books?.id) {
                     popUpTo(NavScreen.Detail.argDetailScreen + books?.id) {
@@ -49,7 +49,7 @@ fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
             }
             )
         }
-        getLoadingState(lazyMovieItems, this)
+        getLoadingState(lazyBookItems, this)
     }
 }
 

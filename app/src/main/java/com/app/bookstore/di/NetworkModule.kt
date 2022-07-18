@@ -62,10 +62,4 @@ object NetworkModule {
     fun provideBookListApiService(retrofit: Retrofit): BookListApiService {
         return retrofit.create(BookListApiService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideVolumeDetailApiService(retrofit: Retrofit): VolumeDetailApiService {
-        return retrofit.create(VolumeDetailApiService::class.java)
-    }
 }

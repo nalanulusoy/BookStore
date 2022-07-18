@@ -2,6 +2,7 @@ package com.app.bookstore.feature.detail.data
 
 import com.app.bookstore.base.extention.COMMON_API_ROUTE_BOOK_DETAIL
 import com.app.bookstore.base.networkstate.errorhandling.ApiResponse
+import com.app.bookstore.feature.detail.data.response.VolumeDetailResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
