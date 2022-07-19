@@ -53,8 +53,8 @@ fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
     }
 }
 
-fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyListScope) {
-    lazyMovieItems.apply {
+fun getLoadingState(lazyBookItems: LazyPagingItems<BookResult>, scope: LazyListScope) {
+    lazyBookItems.apply {
         scope.run {
             when {
                 loadState.refresh is LoadState.Loading -> {
@@ -64,7 +64,7 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyList
                     item { LoadingItem() }
                 }
                 loadState.refresh is LoadState.Error -> {
-                    val e = lazyMovieItems.loadState.refresh as LoadState.Error
+                    val e = lazyBookItems.loadState.refresh as LoadState.Error
                     item {
                         ErrorItem(
                             message = e.error.localizedMessage!!,
@@ -74,7 +74,7 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyList
                     }
                 }
                 loadState.append is LoadState.Error -> {
-                    val e = lazyMovieItems.loadState.append as LoadState.Error
+                    val e = lazyBookItems.loadState.append as LoadState.Error
                     item {
                         ErrorItem(
                             message = e.error.localizedMessage!!,

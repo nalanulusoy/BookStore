@@ -23,8 +23,8 @@ import com.app.bookstore.R
 import com.app.bookstore.base.NavScreen
 import com.app.bookstore.component.AppBarView
 import com.app.bookstore.feature.detail.presentation.DetailScreen
-import com.app.bookstore.feature.favorite.FavoriteScreen
-import com.app.bookstore.feature.search.SearchScreen
+import com.app.bookstore.feature.favorite.presentation.FavoriteScreen
+import com.app.bookstore.feature.search.presentation.SearchScreen
 
 
 /**
@@ -97,7 +97,7 @@ fun CommonNavController(
         {
             when (route) {
                 NavScreen.Dashboard.route -> BooksList(viewModel, navController)
-                NavScreen.Search.route -> SearchScreen()
+                NavScreen.Search.route -> SearchScreen(navController)
                 NavScreen.Favorite.route -> FavoriteScreen(viewModel)
             }
         }
