@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -93,7 +94,7 @@ fun BookItem(book: BookResult?, viewModel: DashboardViewModel, onClickStartSourc
         Card(
             modifier = Modifier
                 .padding(15.dp)
-                .clickable(onClick = onClickStartSource),
+                .clickable(onClick = onClickStartSource).testTag("BookItemTag"),
             elevation = 10.dp,
             shape = RoundedCornerShape(10)
         ) {
@@ -136,7 +137,7 @@ fun BookItem(book: BookResult?, viewModel: DashboardViewModel, onClickStartSourc
 }
 
 fun findIsCheckedFavorite(id: String?, viewModel: DashboardViewModel): Boolean {
-    viewModel.favBooks.map { if (id == it.id.toString()) return true }
+    viewModel.favBooks.map { if (id == it.id) return true }
     return false
 }
 
