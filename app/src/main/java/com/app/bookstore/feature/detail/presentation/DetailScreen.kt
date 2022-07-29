@@ -93,7 +93,6 @@ fun DetailScreen(viewModel: DetailViewModel, id: String, pressOnBack: () -> Unit
 
 @Composable
 fun LinkView(buyLink: String, previewPdf: String) {
-    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()

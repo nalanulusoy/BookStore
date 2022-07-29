@@ -20,7 +20,6 @@ class BookSource(private val repository: BookDashboardRepository) :
                 nextPage,
                 SEARCH_STRING,
                 GOOGLE_API_KEY
-
             )
 
             LoadResult.Page(

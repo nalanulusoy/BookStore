@@ -1,6 +1,8 @@
-package com.app.bookstore.feature.favorite
+package com.app.bookstore.feature.favorite.presentation
 
+import SwipeCardItem
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,8 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.app.bookstore.db.BookData
 import com.app.bookstore.feature.dashboard.presentation.DashboardViewModel
-import com.app.bookstore.feature.favorite.presentation.FavoriteViewModel
-import swipeCardItem
 
 /**
  * Created by Nalan Ulusoy on 02,Temmuz,2022
@@ -25,7 +25,7 @@ import swipeCardItem
 @Composable
 fun FavoriteScreen(dashboardViewModel: DashboardViewModel) {
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(Color.White)
     ) {
         swipeCardList(dashboardViewModel.favBooks)
     }
@@ -55,7 +55,7 @@ fun swipeCardList(books: List<BookData>) {
                     favoriteViewModel.deleteFavBook(item)
                 }
             }
-            swipeCardItem(dismissState,item)
+            SwipeCardItem(dismissState,item)
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -53,8 +54,8 @@ fun BooksList(viewModel: DashboardViewModel, navController: NavController) {
     }
 }
 
-fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyListScope) {
-    lazyMovieItems.apply {
+fun getLoadingState(lazyBookItems: LazyPagingItems<BookResult>, scope: LazyListScope) {
+    lazyBookItems.apply {
         scope.run {
             when {
                 loadState.refresh is LoadState.Loading -> {
@@ -64,7 +65,7 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyList
                     item { LoadingItem() }
                 }
                 loadState.refresh is LoadState.Error -> {
-                    val e = lazyMovieItems.loadState.refresh as LoadState.Error
+                    val e = lazyBookItems.loadState.refresh as LoadState.Error
                     item {
                         ErrorItem(
                             message = e.error.localizedMessage!!,
@@ -74,7 +75,7 @@ fun getLoadingState(lazyMovieItems: LazyPagingItems<BookResult>, scope: LazyList
                     }
                 }
                 loadState.append is LoadState.Error -> {
-                    val e = lazyMovieItems.loadState.append as LoadState.Error
+                    val e = lazyBookItems.loadState.append as LoadState.Error
                     item {
                         ErrorItem(
                             message = e.error.localizedMessage!!,
@@ -93,7 +94,7 @@ fun BookItem(book: BookResult?, viewModel: DashboardViewModel, onClickStartSourc
         Card(
             modifier = Modifier
                 .padding(15.dp)
-                .clickable(onClick = onClickStartSource),
+                .clickable(onClick = onClickStartSource).testTag("BookItemTag"),
             elevation = 10.dp,
             shape = RoundedCornerShape(10)
         ) {
@@ -136,7 +137,7 @@ fun BookItem(book: BookResult?, viewModel: DashboardViewModel, onClickStartSourc
 }
 
 fun findIsCheckedFavorite(id: String?, viewModel: DashboardViewModel): Boolean {
-    viewModel.favBooks.map { if (id == it.id.toString()) return true }
+    viewModel.favBooks.map { if (id == it.id) return true }
     return false
 }
 
