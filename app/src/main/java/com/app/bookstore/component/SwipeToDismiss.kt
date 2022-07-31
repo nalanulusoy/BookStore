@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.bookstore.component.BookImageView
@@ -23,7 +24,7 @@ fun SwipeCardItem(dismissState: DismissState,item:BookData){
     SwipeToDismiss(
         state = dismissState,
         modifier = Modifier
-            .padding(vertical = 1.dp),
+            .padding(vertical = 1.dp).testTag(item.id),
         directions = setOf(DismissDirection.EndToStart),
         dismissThresholds = {
             FractionalThreshold( 0.5f)

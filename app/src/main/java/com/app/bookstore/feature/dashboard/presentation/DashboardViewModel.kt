@@ -33,12 +33,11 @@ class DashboardViewModel @Inject constructor(
         getFavBooks()
     }
 
-    private fun getFavBooks() {
+    fun getFavBooks() {
         viewModelScope.launch {
             try {
                 repository.getFavoriteBooksData().collect { value ->
                     favBooks = value
-
                 }
             } catch (e: Exception) {
                 println("The flow has thrown an exception: $e")
@@ -51,6 +50,5 @@ class DashboardViewModel @Inject constructor(
             repository.addFavoriteBook(bookData)
         }
     }
-
 
 }

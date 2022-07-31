@@ -27,15 +27,15 @@ fun FavoriteScreen(dashboardViewModel: DashboardViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize().background(Color.White)
     ) {
-        swipeCardList(dashboardViewModel.favBooks)
+        val favoriteViewModel = hiltViewModel() as FavoriteViewModel
+        swipeCardList(dashboardViewModel.favBooks,favoriteViewModel)
     }
 }
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun swipeCardList(books: List<BookData>) {
-    val favoriteViewModel = hiltViewModel() as FavoriteViewModel
+fun swipeCardList(books: List<BookData>,favoriteViewModel: FavoriteViewModel) {
     val listComparator = Comparator<BookData> { left, right ->
         left.id.compareTo(right.id)
     }

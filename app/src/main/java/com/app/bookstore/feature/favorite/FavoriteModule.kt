@@ -4,6 +4,7 @@ import com.app.bookstore.db.BookDatabase
 import com.app.bookstore.feature.favorite.data.FavoriteBookDeleteDataRepository
 import com.app.bookstore.feature.favorite.data.datasource.FavoriteBookLocalSource
 import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
  */
 @InstallIn(ViewModelComponent::class)
 @Module
-class FavoriteModule {
+ class FavoriteModule {
 
     @Provides
     @ViewModelScoped
