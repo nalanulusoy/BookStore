@@ -39,7 +39,7 @@ import java.util.*
 fun SearchScreen(navController: NavController) {
     var state = remember { mutableStateOf(TextFieldValue("")) }
 
-    val viewModel = hiltViewModel() as SearchViewModel
+    val viewModel = hiltViewModel<SearchViewModel>()
 
     val lazyBookItems: LazyPagingItems<BookResult> = viewModel.books.collectAsLazyPagingItems()
     Column(

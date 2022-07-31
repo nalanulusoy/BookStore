@@ -1,7 +1,5 @@
 package com.app.bookstore.base.extention
 
-import com.app.bookstore.db.BookData
-
 
 /**
  * Created by Nalan Ulusoy on 13,Mart,2022
