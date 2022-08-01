@@ -15,7 +15,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val repository: VolumeDetailRepository) :
     ViewModel() {
 
-    private val volumeId: MutableStateFlow<String> = MutableStateFlow("")
+    val volumeId: MutableStateFlow<String> = MutableStateFlow("")
     val detailData: Flow<Resource<VolumeDetailResponse>> =
         volumeId.flatMapLatest { repository.getVolumeService(it) }
 
