@@ -44,11 +44,11 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun searchStringKeyVerify(){
+    fun searchStringKeyVerify() {
         val key = "Computer"
         viewModel.searchStringKey(key)
 
         Assert.assertNotNull(viewModel.searchKey)
-        Assert.assertEquals(key,viewModel.searchKey.value)
+        Assert.assertEquals(key, viewModel.searchKey.value)
     }
 }

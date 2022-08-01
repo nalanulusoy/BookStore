@@ -16,19 +16,19 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
 
-    lateinit var viewModel : DetailViewModel
+    lateinit var viewModel: DetailViewModel
 
     @Mock
     lateinit var repository: VolumeDetailRepository
 
     @Before
-    fun setUp(){
+    fun setUp() {
 
-       viewModel = DetailViewModel(repository)
+        viewModel = DetailViewModel(repository)
     }
 
     @Test
-    fun fetchVolumeIdByIdTest(){
+    fun fetchVolumeIdByIdTest() {
         //Given
         val id = "1234"
         //When
@@ -36,13 +36,13 @@ class DetailViewModelTest {
 
         //Then
         Assert.assertNotNull(viewModel.volumeId)
-        Assert.assertNotEquals(id,viewModel.volumeId)
+        Assert.assertNotEquals(id, viewModel.volumeId)
     }
 
     @Test
-    fun getDetailDataNotNullTest(){
+    fun getDetailDataNotNullTest() {
 
-       val data = viewModel.detailData
+        val data = viewModel.detailData
 
         Assert.assertNotNull(data)
     }

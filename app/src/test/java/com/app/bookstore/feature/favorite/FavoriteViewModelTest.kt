@@ -53,6 +53,6 @@ class FavoriteViewModelTest {
             viewModel.deleteFavBook(deleteBook)
         }
         //Then
-        verify(repository,times(1)).favDeleteBook(deleteBook)
+        verify(repository, times(1)).favDeleteBook(deleteBook)
     }
 }
