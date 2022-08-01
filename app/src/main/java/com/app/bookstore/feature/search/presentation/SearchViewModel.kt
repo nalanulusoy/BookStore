@@ -19,7 +19,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor(repository: BookSearchRepository) : ViewModel() {
-    private val searchKey: MutableStateFlow<String> = MutableStateFlow("")
+    val searchKey: MutableStateFlow<String> = MutableStateFlow("")
 
     val books: Flow<PagingData<BookResult>> = searchKey.flatMapLatest {
         Pager(PagingConfig(pageSize = 20)) {
@@ -30,4 +30,5 @@ class SearchViewModel @Inject constructor(repository: BookSearchRepository) : Vi
     fun searchStringKey(searchStringKey: String) {
         searchKey.tryEmit(searchStringKey)
     }
+
 }

@@ -11,8 +11,13 @@ import com.app.bookstore.feature.dashboard.data.response.BookResult
 import com.app.bookstore.feature.dashboard.domain.BookDashboardRepository
 import com.app.bookstore.feature.dashboard.domain.BookSource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import javax.inject.Inject
 
 /**
@@ -34,10 +39,10 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun getFavBooks() {
-        viewModelScope.launch {
+     viewModelScope.launch {
             try {
-                repository.getFavoriteBooksData().collect { value ->
-                    favBooks = value
+                repository.getFavoriteBooksData().collectLatest {
+                    favBooks = it
                 }
             } catch (e: Exception) {
                 println("The flow has thrown an exception: $e")
