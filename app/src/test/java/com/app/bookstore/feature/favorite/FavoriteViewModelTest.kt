@@ -1,15 +1,14 @@
 package com.app.bookstore.feature.dashboard
 
 import com.app.bookstore.db.BookData
-import com.app.bookstore.feature.detail.domain.VolumeDetailRepository
-import com.app.bookstore.feature.detail.presentation.DetailViewModel
 import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
 import com.app.bookstore.feature.favorite.presentation.FavoriteViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -53,6 +52,6 @@ class FavoriteViewModelTest {
             viewModel.deleteFavBook(deleteBook)
         }
         //Then
-        verify(repository,times(1)).favDeleteBook(deleteBook)
+        verify(repository, times(1)).favDeleteBook(deleteBook)
     }
 }

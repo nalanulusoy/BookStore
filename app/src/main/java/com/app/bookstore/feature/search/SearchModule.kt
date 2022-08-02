@@ -1,11 +1,6 @@
 package com.app.bookstore.feature.search
 
 import com.app.bookstore.base.extention.EMPTY
-import com.app.bookstore.db.BookDatabase
-import com.app.bookstore.feature.dashboard.data.BookListApiService
-import com.app.bookstore.feature.favorite.data.FavoriteBookDeleteDataRepository
-import com.app.bookstore.feature.favorite.data.datasource.FavoriteBookLocalSource
-import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
 import com.app.bookstore.feature.search.data.BookSearchApiSource
 import com.app.bookstore.feature.search.data.repo.BookSearchDataRepository
 import com.app.bookstore.feature.search.datasource.BookSearchRemoteDataSource
@@ -24,7 +19,7 @@ import retrofit2.Retrofit
  */
 @InstallIn(ViewModelComponent::class)
 @Module
-class SearchModule {
+object SearchModule {
     @Provides
     @ViewModelScoped
     fun provideBookSearchRepository(
@@ -55,7 +50,7 @@ class SearchModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSearchBookSource(repository:BookSearchRepository,keyString:String ): SearchBookSource {
+    fun provideSearchBookSource(repository:BookSearchRepository,keyString:String): SearchBookSource {
         return SearchBookSource(repository, keyString)
     }
 }

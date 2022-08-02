@@ -19,12 +19,12 @@ import retrofit2.Retrofit
  */
 @Module
 @InstallIn(ViewModelComponent::class)
-class DashboardModule {
+object DashboardModule {
+    
     @Provides
     fun provideBookListApiService(retrofit: Retrofit): BookListApiService {
         return retrofit.create(BookListApiService::class.java)
     }
-
 
     @Provides
     @ViewModelScoped
