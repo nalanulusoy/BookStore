@@ -17,7 +17,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
  */
 @InstallIn(ViewModelComponent::class)
 @Module
- class FavoriteModule {
+ object FavoriteModule {
 
     @Provides
     @ViewModelScoped

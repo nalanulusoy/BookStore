@@ -1,12 +1,8 @@
 package com.app.bookstore.feature.dashboard
 
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.app.bookstore.feature.favorite.domain.FavoriteBookDeleteRepository
-import com.app.bookstore.feature.favorite.presentation.FavoriteViewModel
 import com.app.bookstore.feature.search.domain.BookSearchRepository
 import com.app.bookstore.feature.search.presentation.SearchViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain

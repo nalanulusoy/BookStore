@@ -10,7 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 
 /**
@@ -18,7 +17,7 @@ import javax.inject.Singleton
  */
 @InstallIn(ViewModelComponent::class)
 @Module
-class DetailModule {
+object DetailModule {
 
     @Provides
     @ViewModelScoped

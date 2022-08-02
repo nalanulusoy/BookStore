@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 fun Context.openIntentActionView(url:String){
     ContextCompat.startActivity(
         this,
-        Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)),
+        Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url)),
         null
     )
 }

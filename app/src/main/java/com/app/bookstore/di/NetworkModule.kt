@@ -2,8 +2,6 @@ package com.app.bookstore.di
 
 import com.app.bookstore.BuildConfig
 import com.app.bookstore.base.networkstate.FlowCallAdapterFactory
-import com.app.bookstore.feature.dashboard.data.BookListApiService
-import com.app.bookstore.feature.detail.data.VolumeDetailApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
